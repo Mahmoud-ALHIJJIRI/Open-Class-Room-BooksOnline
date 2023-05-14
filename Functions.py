@@ -1,11 +1,14 @@
 # Import required modules
+
 import requests
 from bs4 import BeautifulSoup
 import csv
 
+
 # Define the URL and domain name of the website
 url_book = "http://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
 domain = 'http://books.toscrape.com/'
+category_url = http://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html
 
 
 # Function to get the HTML content of a URL and parse it using BeautifulSoup
@@ -60,3 +63,24 @@ def write_book_data_to_csv(url):
         # Get the data for the book and write it to the CSV file
         book_data = one_book_data(url)
         writer.writerow(book_data)
+
+
+def get_all_categories():
+    response = html_content(domain)
+    categories = response.find('ul', {'class': 'nav nav-list'}).find_all('a')
+
+
+def get_all_categories_names_and_url():
+
+    response = html_content(domain)
+    all_categories_url = []
+    all_categories_names = []
+    list_books = response.find('ul', {'class': 'nav nav-list'}).find('ul').find_all('li')
+    for list_book in list_books:
+        all_categories_url.append(f"{domain}" + list_book.a['href'])
+        all_categories_names.append(list_book.string.strip())
+    return all_categories_url, all_categories_names
+
+def get_category_pages_count():
+    response = html_content(category_url)
+    
