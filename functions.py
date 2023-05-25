@@ -1,4 +1,5 @@
 # Import required modules
+from pprint import pprint
 
 import requests
 from bs4 import BeautifulSoup
@@ -6,7 +7,7 @@ import csv
 
 
 # Define the URL and domain name of the website
-url_book = 'http://books.toscrape.com/catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html'
+url_book = 'http://books.toscrape.com/catalogue/rework_212/index.html'
 domain = 'http://books.toscrape.com/'
 one_category_url = 'http://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html'
 
@@ -71,7 +72,7 @@ def get_all_categories_names_and_url():
     list_books = response.find('ul', {'class': 'nav nav-list'}).find('ul').find_all('li')
     for list_book in list_books:
         all_categories_url.append(f"{domain}" + list_book.a['href'])
-        all_categories_names.append(list_book.string.strip())
+        all_categories_names.append(list_book.text.strip())
     return all_categories_url, all_categories_names
 
 
@@ -91,3 +92,23 @@ def get_next_page():
     next_page_full_link = f"{one_category_url}" + next_page
     next_page_full_link = next_page_full_link.replace("index.html", "")
     return next_page_full_link
+
+
+def check_category():
+    all_categories = get_all_categories_names_and_url()[1]
+    print(f"Categories: {all_categories}")
+    while True:
+        category = input("Choose one category (or write 'exit' to exit): ")
+        if category.lower() == "exit":
+            print("You chose to exit the program. Goodbye!")
+            exit()
+        if category in all_categories:
+            break
+        print("Error: Category not available")
+        print(f"Choose from this list: {all_categories}")
+    print(f"You have selected: {category}")
+    return category
+
+
+"""def get_image():
+    response = html_content()"""
