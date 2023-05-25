@@ -80,11 +80,14 @@ def get_all_books_from_one_page():
     all_book_in_one_page = []
     list_books = response.find('ol', {'class': 'row'}).find_all('h3')
     for list_book in list_books:
-        all_book_in_one_page.append(f"{domain}" + list_book.a["href"].strip('./'))
-
-    return all_book_in_one_page
-
-def get_books_data
+        all_book_in_one_page.append(f"{domain}" + "catalogue/" + list_book.a["href"].strip('./'))
+    for link in all_book_in_one_page:
+        print(link)
 
 
-get_all_books_from_one_page()
+def get_next_page():
+    response = html_content(one_category_url)
+    next_page = response.find('ul', {'class': 'pager'}).find("a").get("href").strip()
+    next_page_full_link = f"{one_category_url}" + next_page
+    next_page_full_link = next_page_full_link.replace("index.html", "")
+    return next_page_full_link
