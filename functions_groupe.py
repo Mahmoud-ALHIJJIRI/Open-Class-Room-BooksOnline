@@ -8,8 +8,17 @@ def extracting_data_from_a_book():
 
 
 def extracting_data_for_books_in_one_category():
-    functions.check_category()
+    names_categories = functions.get_all_categories_names_and_url()[1]
+    url_categories = functions.get_all_categories_names_and_url()[0]
+    selected_category = functions.check_category()
+    index = names_categories.index(selected_category)
+    selected_category_url = url_categories[index]
+    functions.get_all_data_from_one_category(selected_category_url)
+    functions.write_one_category_books_data_to_csv(selected_category_url)
     return
 
 
-extracting_data_for_books_in_one_category()
+"""def extracting_data_for_all_books_in_site():
+"""
+
+"""extracting_data_for_books_in_one_category()"""

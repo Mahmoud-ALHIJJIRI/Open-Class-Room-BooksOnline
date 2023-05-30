@@ -1,12 +1,12 @@
-import pprint
-import functions
 import print_menu
-from functions_groupe import extracting_data_from_a_book
+import functions_groupe
+
+print("er")
 
 
 def main_menu():
     """
-    Affiche le menu principale
+    Show Main Menu
     """
     print(print_menu.MENU)
     choice = input('Your choice : ')
@@ -14,19 +14,22 @@ def main_menu():
 
     while choice in selection_available:
         if choice == "1":
-            extracting_data_from_a_book()
+            functions_groupe.extracting_data_from_a_book()
             exit()
         elif choice == "2":
-            extracting_data_for_all_books_in_category()
+            functions_groupe.extracting_data_for_books_in_one_category()
             exit()
         elif choice == "3":
-            extracting_data_for_all_books_in_site()
+            print("In Progress")
+            # extracting_data_for_all_books_in_site()
             exit()
         elif choice == "4":
-            extracting_images_from_category()
+            print("In Progress")
+            # extracting_images_from_category()
             exit()
         elif choice == "5":
-            extracting_all_images_from_the_site()
+            print("In Progress")
+            # extracting_all_images_from_the_site()
             exit()
         elif choice == "6":
             print("Good Bye")
@@ -37,4 +40,5 @@ def main_menu():
         main_menu()
 
 
-main_menu()
+if __name__ == "__main__":
+    main_menu()

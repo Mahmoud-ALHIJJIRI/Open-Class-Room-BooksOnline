@@ -1,10 +1,9 @@
 # Import required modules
-from pprint import pprint
-
 import requests
 from bs4 import BeautifulSoup
 import csv
 
+import functions_groupe
 
 # Define the URL and domain name of the website
 url_book = 'http://books.toscrape.com/catalogue/rework_212/index.html'
@@ -76,22 +75,59 @@ def get_all_categories_names_and_url():
     return all_categories_url, all_categories_names
 
 
-def get_all_books_from_one_page():
-    response = html_content(one_category_url)
-    all_book_in_one_page = []
-    list_books = response.find('ol', {'class': 'row'}).find_all('h3')
-    for list_book in list_books:
-        all_book_in_one_page.append(f"{domain}" + "catalogue/" + list_book.a["href"].strip('./'))
-    for link in all_book_in_one_page:
-        print(link)
+def get_category_pages_urls(category_url):
+    page_urls = [category_url]  # List to store page URLs
+    next_page_exists = True
+    while next_page_exists:
+        response = html_content(category_url)
+        next_page_link = response.find('li', class_='next')
+        if next_page_link is None:
+            next_page_exists = False
+        else:
+            next_page_url = category_url.replace('index.html', '') + next_page_link.find('a')['href']
+            page_urls.append(next_page_url)
+            category_url = next_page_url  # Update the current_page_url variable
+
+    return page_urls
 
 
-def get_next_page():
-    response = html_content(one_category_url)
-    next_page = response.find('ul', {'class': 'pager'}).find("a").get("href").strip()
-    next_page_full_link = f"{one_category_url}" + next_page
-    next_page_full_link = next_page_full_link.replace("index.html", "")
-    return next_page_full_link
+def get_all_books_from_all_pages(page_url):
+    all_book_in_all_pages = []
+
+    for list_book in get_category_pages_urls(page_url):
+        response = html_content(page_url)
+        list_books = response.find('ol', {'class': 'row'}).find_all('h3')
+        for link in list_books:
+            all_book_in_all_pages.append(f"{domain}" + "catalogue/" + link.a["href"].strip('./'))
+    return all_book_in_all_pages
+
+
+def get_all_data_from_one_category(category_url):
+    all_books_data_one_category = []
+
+    for books_data in get_all_books_from_all_pages(category_url):
+        all_books_data_one_category.append(one_book_data(books_data))
+        print(one_book_data(books_data))
+    return all_books_data_one_category
+
+
+def write_one_category_books_data_to_csv(category_url):
+    # Define the headers of the CSV file
+    headers = ["product_page_url", "universal_product_code", "title", "price_including_tax", "price_excluding_tax",
+               "number_available", "product_description", "category", "review_rating", "image_url"]
+
+    # Open the CSV file for writing and write the headers as the first row
+    with open("selected_category.csv", 'w', newline='', encoding='utf-8-sig') as csvfile:
+        writer = csv.writer(csvfile, delimiter=",")
+        writer.writerow(headers)
+
+        # Get the book URLs for the category
+        book_urls = get_all_books_from_all_pages(category_url)
+
+        # Iterate over the list of URLs and write the data for each book
+        for url in book_urls:
+            book_data = one_book_data(url)
+            writer.writerow(book_data)
 
 
 def check_category():
@@ -110,5 +146,11 @@ def check_category():
     return category
 
 
-"""def get_image():
-    response = html_content()"""
+"""def get_all_books_url(site, categories_url=None):
+    all_books_url = []
+    for all_url in all_books_url:
+        all_books_url.append(get_all_categories_names_and_url()[0])"""
+
+
+current_page_url = 'http://books.toscrape.com/catalogue/category/books/mystery_3/index.html'
+print(get_category_pages_urls(current_page_url))
