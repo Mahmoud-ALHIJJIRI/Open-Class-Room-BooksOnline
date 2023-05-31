@@ -14,7 +14,7 @@ def extracting_data_for_books_in_one_category():
     index = names_categories.index(selected_category)
     selected_category_url = url_categories[index]
     functions.get_all_data_from_one_category(selected_category_url)
-    functions.write_one_category_books_data_to_csv(selected_category_url)
+    functions.write_one_category_books_data_to_csv(selected_category_url, selected_category)
     return
 
 
