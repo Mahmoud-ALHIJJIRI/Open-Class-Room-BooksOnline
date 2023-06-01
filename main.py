@@ -20,8 +20,7 @@ def main_menu():
             functions_groupe.extracting_data_for_books_in_one_category()
             exit()
         elif choice == "3":
-            print("In Progress")
-            # extracting_data_for_all_books_in_site()
+            functions_groupe.extracting_data_for_all_books_onsite()
             exit()
         elif choice == "4":
             print("In Progress")
