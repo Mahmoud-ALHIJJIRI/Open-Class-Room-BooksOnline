@@ -23,12 +23,10 @@ def main_menu():
             functions_groupe.extracting_data_for_all_books_onsite()
             exit()
         elif choice == "4":
-            print("In Progress")
-            # extracting_images_from_category()
+            functions_groupe.extracting_image_from_one_category()
             exit()
         elif choice == "5":
-            print("In Progress")
-            # extracting_all_images_from_the_site()
+            functions_groupe.extracting_image_from_all_site()
             exit()
         elif choice == "6":
             print("Good Bye")

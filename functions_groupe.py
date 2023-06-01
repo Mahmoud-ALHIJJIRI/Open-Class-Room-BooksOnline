@@ -1,5 +1,6 @@
 from pprint import pprint
 import functions
+import image_functions
 
 domain = 'http://books.toscrape.com/'
 
@@ -44,3 +45,10 @@ def extracting_data_for_all_books_onsite():
 
 
 def extracting_image_from_one_category():
+    image_functions.extracting_image_from_1_category()
+    return
+
+
+def extracting_image_from_all_site():
+    image_functions.extracting_all_images_from_the_site()
+    return
