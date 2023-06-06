@@ -1,8 +1,6 @@
 import print_menu
 import functions_groupe
 
-print("er")
-
 
 def main_menu():
     """

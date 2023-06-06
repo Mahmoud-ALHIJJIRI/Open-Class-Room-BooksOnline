@@ -81,6 +81,3 @@ def extracting_all_images_from_the_site():
         for page_url in functions.get_all_books_from_all_pages(link):
             # Extract and save images from the page URL
             extract_images(page_url)
-
-
-extracting_image_from_1_category()
