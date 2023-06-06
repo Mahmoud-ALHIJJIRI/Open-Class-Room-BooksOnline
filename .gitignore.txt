@@ -3,3 +3,4 @@ images/
 all-images/
 .idea/
 *.pdf
+Livrables/
